@@ -11,10 +11,10 @@
           "slave": "Slave / Unit ID",
           "model": "Inverter Model",
           "scan_interval": "Polling Interval (seconds)",
-          "enable_control": "Enable battery control (Passive Mode required)",
+          "enable_control": "Enable battery control (Passive Mode required). When off, only standard Modbus reads are sent: no heartbeat, commands, schedule, clock or event-log requests",
           "max_power": "Maximum charge/discharge power (W)",
-          "enable_schedule": "Enable Timing / Time-of-Use schedule entities (ME3000SP and HYD-ES only)",
-          "enable_clock_monitor": "Monitor the inverter clock (recommended when using schedules)"
+          "enable_schedule": "Enable Timing / Time-of-Use schedule entities (ME3000SP and HYD-ES only; requires battery control)",
+          "enable_clock_monitor": "Monitor the inverter clock (recommended when using schedules; requires battery control)"
         }
       }
     },
@@ -34,10 +34,10 @@
         "description": "Change polling and feature settings. Connection details and inverter model cannot be changed here \u2014 remove and re-add the integration if those need to change.",
         "data": {
           "scan_interval": "Polling Interval (seconds)",
-          "enable_control": "Enable battery control (Passive Mode required)",
+          "enable_control": "Enable battery control (Passive Mode required). When off, only standard Modbus reads are sent: no heartbeat, commands, schedule, clock or event-log requests",
           "max_power": "Maximum charge/discharge power (W)",
-          "enable_schedule": "Enable Timing / Time-of-Use schedule entities (ME3000SP and HYD-ES only)",
-          "enable_clock_monitor": "Monitor the inverter clock (recommended when using schedules)"
+          "enable_schedule": "Enable Timing / Time-of-Use schedule entities (ME3000SP and HYD-ES only; requires battery control)",
+          "enable_clock_monitor": "Monitor the inverter clock (recommended when using schedules; requires battery control)"
         }
       }
     }

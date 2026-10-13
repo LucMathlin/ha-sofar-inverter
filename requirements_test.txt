@@ -1,0 +1,10 @@
+# Test dependencies.
+#
+# pytest-homeassistant-custom-component pins homeassistant (here 2026.9.4)
+# together with its own pytest stack; do not add top-level pins for packages it
+# already pins. Move this pin together with the Home Assistant version you test.
+pytest-homeassistant-custom-component==0.13.367
+# Home Assistant 2026.9.4 constrains pymodbus to exactly this version
+# (homeassistant/package_constraints.txt), so this is what runs in HA even
+# though the manifest only asks for >=3.11.2.
+pymodbus==3.13.1

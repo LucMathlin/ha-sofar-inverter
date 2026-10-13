@@ -16,3 +16,8 @@ build/
 *.swo
 .DS_Store
 Thumbs.db
+
+# Test / tooling
+.pytest_cache/
+.venv*/
+__pycache__/

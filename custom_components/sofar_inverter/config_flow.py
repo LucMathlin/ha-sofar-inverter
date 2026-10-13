@@ -122,6 +122,7 @@ def _options_schema(entry: config_entries.ConfigEntry) -> vol.Schema:
 
 async def _test_connection(host: str, port: int, slave: int, model: str) -> str | None:
     """Try to connect and read the running-state register. Returns an error key or None."""
+    client = None
     try:
         from pymodbus.client import AsyncModbusTcpClient  # noqa: PLC0415
 
@@ -134,9 +135,14 @@ async def _test_connection(host: str, port: int, slave: int, model: str) -> str 
         result = await client.read_holding_registers(
             address=state_reg, count=1, device_id=slave
         )
-        client.close()
 
-        if not hasattr(result, "registers") or result.registers is None:
+        # An exception reply (e.g. 0x0B from the gateway when nothing answers
+        # this unit ID) has registers == [], not None, so check isError() too.
+        if (
+            result is None
+            or (hasattr(result, "isError") and result.isError())
+            or not getattr(result, "registers", None)
+        ):
             return "invalid_slave"
         return None
     except ConnectionRefusedError:
@@ -144,6 +150,11 @@ async def _test_connection(host: str, port: int, slave: int, model: str) -> str 
     except Exception as exc:  # noqa: BLE001
         _LOGGER.exception("Error testing Sofar connection to %s:%s: %s", host, port, exc)
         return "unknown"
+    finally:
+        # On every path: a client left open keeps a gateway TCP session and a
+        # pymodbus reconnect task alive after the form has been answered.
+        if client is not None:
+            client.close()
 
 
 class SofarInverterConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
